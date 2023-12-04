@@ -6,11 +6,13 @@ import (
 	"strconv"
 
 	"github.com/hjfitz/advent-of-code-2023/day1"
+	"github.com/hjfitz/advent-of-code-2023/day2"
 )
 
 func main() {
 	days := []func(){
 		day1.Run,
+		day2.Run,
 	}
 
 	if len(os.Args) > 1 {

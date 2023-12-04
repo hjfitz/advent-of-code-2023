@@ -2,9 +2,10 @@ package day1
 
 import (
 	"fmt"
-	"os"
 	"strconv"
 	"strings"
+
+	"github.com/hjfitz/advent-of-code-2023/utils"
 )
 
 const INPUT_DATA_PART_ONE = `1abc2
@@ -19,12 +20,6 @@ xtwone3four
 4nineeightseven2
 zoneight234
 7pqrstsixteen`
-
-func getLines(filename string) []string {
-	data, _ := os.ReadFile(filename)
-	lines := strings.Split(string(data), "\n")
-	return lines
-}
 
 func getValues(line string) int {
 	pair := ""
@@ -135,7 +130,7 @@ func Day1Part2(lines []string) int {
 
 func Run() {
 	sampleDataPartTwo := strings.Split(INPUT_DATA_PART_TWO, "\n")
-	actualData := getLines("day1/day1")
+	actualData := utils.GetLines("files/day1")
 	sampleData := strings.Split(INPUT_DATA_PART_ONE, "\n")
 
 	partOneSample := Day1Part1(sampleData)
