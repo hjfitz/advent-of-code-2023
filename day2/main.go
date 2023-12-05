@@ -2,6 +2,7 @@ package day2
 
 import (
 	"fmt"
+	"math"
 	"regexp"
 	"strconv"
 	"strings"
@@ -75,12 +76,37 @@ func Day2Part1(lines []string) int {
 	return total
 }
 
+func Day2Part2(lines []string) int {
+	var total float64 = 0
+	for _, l := range lines {
+		utils.LogDebug("Parsing: %s\n", l)
+		p := parseLine(l)
+		maxCounts := make([]float64, 3)
+
+		for _, round := range p {
+				maxCounts[0] = math.Max(maxCounts[0], float64(round[0]))
+				maxCounts[1] = math.Max(maxCounts[1], float64(round[1]))
+				maxCounts[2] = math.Max(maxCounts[2], float64(round[2]))
+		}
+		total += (maxCounts[0] * maxCounts[1] * maxCounts[2])
+
+	}
+	return int(total)
+}
+
 func Run() {
 	sampleLines := strings.Split(SAMPLE_DATA, "\n")
+	day2Lines := utils.GetLines("files/day2")
+
 	part1Sample := Day2Part1(sampleLines)
-	part1Lines := utils.GetLines("files/day2")
-	part1Actual := Day2Part1(part1Lines)
+	part1Actual := Day2Part1(day2Lines)
+
 
 	fmt.Printf("Day 2, Part 1 for sample data: %d\n", part1Sample)
 	fmt.Printf("Day 2, Part 1 for actual data: %d\n", part1Actual)
+
+	part2Sample := Day2Part2(sampleLines)
+	part2Actual := Day2Part2(day2Lines)
+	fmt.Printf("Day 2, Part 2 for sample data: %d\n", part2Sample)
+	fmt.Printf("Day 2, Part 1 for actual data: %d\n", part2Actual)
 }

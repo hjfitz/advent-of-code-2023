@@ -26,8 +26,12 @@ func main() {
 		fn()
 	} else {
 		fmt.Println("Running all days")
-		for _, fn := range days {
+		fmt.Println()
+		for idx, fn := range days {
+			day := idx + 1
+			fmt.Printf("Running day %d\n", day)
 			fn()
+			fmt.Println()
 		}
 	}
 }
