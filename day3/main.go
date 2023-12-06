@@ -2,6 +2,7 @@ package day3
 
 import (
 	"fmt"
+	"math"
 	"regexp"
 	"strconv"
 	"strings"
@@ -30,6 +31,10 @@ func isNum(c string) bool {
 	return re.Match([]byte(c))
 }
 
+func bound(x, min, max int) int {
+	return int(math.Min(math.Max(float64(min), float64(x)), float64(max)))
+}
+
 func Part1(lines []string) (total int) {
 	re := regexp.MustCompile("[0-9]|\\.")
 	allowedNums := [][]int{}
@@ -53,10 +58,6 @@ func Part1(lines []string) (total int) {
 			}
 
 			if foundAdj && curNum != "" {
-				// when the number has ended, it either
-				// has a non-numeric to the right: !isNum(line[y+1])
-				// or is at the end (y == maxYBound)
-				// if y == maxYBound || (y < maxYBound && !isNum(string(line[y+1]))) {
 				if y == maxYBound || !isNum(string(line[y])) {
 					foundNum, _ := strconv.Atoi(curNum)
 					total += foundNum
@@ -66,97 +67,28 @@ func Part1(lines []string) (total int) {
 				}
 			}
 
-			// if we don't have a number, skip checking adjacent characters
 			if curNum == "" {
 				continue
 			}
 
-			// if we do have a number, but the number has ended, remove that number
+			if curNum == "4" {
+				utils.LogDebug("found 454")
+			}
+
 			if isNum(curNum) && !isNum(c) {
 				curNum = ""
 			}
 
-			// check above
-			if x > minXBound {
-				adjChar := string(lines[x-1][y])
-
-				if !re.Match([]byte(adjChar)) {
-					foundAdj = true
+			for xCursor := (x - 1); xCursor < (x + 2); xCursor += 1 {
+				for yCursor := (y - 1); yCursor < (y + 2); yCursor += 1 {
+					xPos := bound(xCursor, minXBound, maxXBound)
+					yPos := bound(yCursor, minYBound, maxYBound)
+					adjChar := string(lines[xPos][yPos])
+					if !re.Match([]byte(adjChar)) {
+						foundAdj = true
+					}
 				}
-
-				// utils.LogDebug("'u: %s' ", adjChar)
 			}
-
-			// check left
-			if y > minYBound {
-				adjChar := string(line[y-1])
-
-				if !re.Match([]byte(adjChar)) {
-					foundAdj = true
-				}
-
-				//utils.LogDebug("'l: %s' ", adjChar)
-			}
-
-			// check below
-			if x < maxXBound {
-				adjChar := string(lines[x+1][y])
-
-				if !re.Match([]byte(adjChar)) {
-					foundAdj = true
-				}
-				//utils.LogDebug("'b: %s' ", adjChar)
-			}
-
-			// check right
-			if y < maxYBound {
-				adjChar := string(line[y+1])
-				if !re.Match([]byte(adjChar)) {
-					foundAdj = true
-				}
-				//utils.LogDebug("'r: %s' ", adjChar)
-			}
-
-			// check up and left (diagonal)
-			if x > minXBound && y > minYBound {
-				adjChar := string(lines[x-1][y-1])
-				if !re.Match([]byte(adjChar)) {
-					foundAdj = true
-				}
-				//utils.LogDebug("'ul: %s' ", adjChar)
-			}
-
-			// check up and right (other diagonal)
-			if x > minXBound && y < maxYBound {
-				adjChar := string(lines[x-1][y+1])
-
-				if !re.Match([]byte(adjChar)) {
-					foundAdj = true
-				}
-
-				//utils.LogDebug("'ur: %s' ", adjChar)
-			}
-			// check down and right (other other diagonal)
-			if x < maxXBound && y < maxYBound {
-				adjChar := string(lines[x+1][y+1])
-				if !re.Match([]byte(adjChar)) {
-					foundAdj = true
-				}
-
-				//utils.LogDebug("'bl: %s'", string(lines[x+1][y+1]))
-			}
-
-			// check down and left
-			if x < maxXBound && y > minYBound {
-				adjChar := string(lines[x+1][y-1])
-				if !re.Match([]byte(adjChar)) {
-					foundAdj = true
-				}
-				//utils.LogDebug("'br: %s'", string(adjChar))
-			}
-
-			foundAdj = foundAdj && curNum != ""
-
 		}
 		utils.LogDebug("\n")
 	}
