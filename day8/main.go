@@ -40,11 +40,11 @@ func parseNodes(nodeMap []string) *Node {
 		utils.LogDebug("Node name: %s\n", nodeName)
 	}
 
-	for i, node := range nodeMap {
+	for _, node := range nodeMap {
 		nodeName := node[0:3]
 		cur := rawNodes[nodeName]
 
-		if i == 0 {
+		if nodeName == "AAA" {
 			root = cur
 		}
 
