@@ -8,13 +8,22 @@ import (
 	"github.com/hjfitz/advent-of-code-2023/day1"
 	"github.com/hjfitz/advent-of-code-2023/day2"
 	"github.com/hjfitz/advent-of-code-2023/day3"
+	"github.com/hjfitz/advent-of-code-2023/day4"
+	"github.com/hjfitz/advent-of-code-2023/day8"
 )
+
+func noop() {}
 
 func main() {
 	days := []func(){
 		day1.Run,
 		day2.Run,
 		day3.Run,
+		day4.Run,
+		noop, // 5
+		noop, // 6
+		noop, // 7
+		day8.Run,
 	}
 
 	if len(os.Args) > 1 {
